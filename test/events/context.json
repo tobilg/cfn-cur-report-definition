@@ -1,0 +1,10 @@
+{
+    "callbackWaitsForEmptyEventLoop": true,
+    "functionVersion": "$LATEST",
+    "functionName": "test-custom-cost-report-d-CustomCostUsageReportDef-1G27UYKGP8I7W",
+    "memoryLimitInMB": "128",
+    "logGroupName": "/aws/lambda/test-custom-cost-report-d-CustomCostUsageReportDef-1G27UYKGP8I7W",
+    "logStreamName": "2020/01/19/[$LATEST]7fc0bdecbd934e419ca4c4d598900618",
+    "invokedFunctionArn": "arn:aws:lambda:us-east-1:562552715877:function:test-custom-cost-report-d-CustomCostUsageReportDef-1G27UYKGP8I7W",
+    "awsRequestId": "e757630e-bbb0-46a1-ad7b-c4704e5e3ccf"
+}

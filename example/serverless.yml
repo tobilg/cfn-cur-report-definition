@@ -1,0 +1,13 @@
+service:
+    name: 'test-custom-cost-report-definition'
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
+  
+resources:
+  - ${file(resources/s3-bucket.yml)}
+  - ${file(../dist/sls-cur-reportdefinition.yml)}
+  - ${file(resources/cost-usage-reportdefinition.yml)}

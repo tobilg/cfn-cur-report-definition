@@ -1,0 +1,45 @@
+Resources:
+  TestBucket:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: 'test-custom-cost-usage-reportdefinition-${self:provider.stage}'
+  TestBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    DependsOn:
+      - TestBucket
+    Properties:
+      Bucket:
+        Ref: TestBucket
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: 'billingreports.amazonaws.com'
+            Action:
+              - s3:GetBucketAcl
+              - s3:GetBucketPolicy
+            Resource:
+              - Fn::Join: [
+                  '', [
+                    'arn:aws:s3:::',
+                    {
+                      'Ref': 'TestBucket'
+                    }
+                  ]
+                ]
+          - Effect: Allow
+            Principal:
+              Service: 'billingreports.amazonaws.com'
+            Action:
+              - s3:PutObject
+            Resource:
+              - Fn::Join: [
+                  '', [
+                    'arn:aws:s3:::',
+                    {
+                      'Ref': 'TestBucket'
+                    },
+                    '/*'
+                  ]
+                ]

@@ -1,0 +1,18 @@
+Resources:
+  CostUsageReportDefinition:
+    Type: 'Custom::CostUsageReportDefinition'
+    Properties:
+      AdditionalSchemaElements:
+        - 'RESOURCES'
+      Compression: 'Parquet'
+      Format: 'Parquet'
+      ReportName: 'test-report'
+      ReportVersioning: 'CREATE_NEW_REPORT'
+      RefreshClosedReports: True
+      S3Bucket:
+        Ref: TestBucket
+      S3Prefix: 'usagereports/'
+      S3Region: '${self:provider.region}'
+      TimeUnit: 'DAILY'
+      ServiceToken: 
+        'Fn::GetAtt': [CustomCostUsageReportDefinitionLambda, Arn]

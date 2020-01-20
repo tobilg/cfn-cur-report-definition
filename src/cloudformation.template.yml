@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Custom Cost Usage ReportDefinition CloudFormation resource
+Resources:
+  CustomCostUsageReportDefinitionLambda:
+    Metadata:
+      Source: https://github.com/tobilg/cfn-cur-report-definition
+      Version: 0.1.0
+    Properties:
+      Code:
+        ZipFile: |
+          $SOURCE
+      Description: Cloudformation custom resource for Cost Usage ReportDefinition
+      Handler: index.handler
+      Role: !GetAtt 'CustomCostUsageReportDefinitionLambdaExecutionRole.Arn'
+      Runtime: nodejs10.x
+      Timeout: 30
+    Type: AWS::Lambda::Function
+  CustomCostUsageReportDefinitionLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaRole
+      Policies:
+        - PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cur:PutReportDefinition
+                  - cur:DeleteReportDefinition
+                  - cur:ModifyReportDefinition
+                Resource: !Sub 'arn:aws:cur:${AWS::Region}:${AWS::AccountId}:definition/*'
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*'
+          PolicyName: !Sub 'CustomCostUsageReportDefinitionLambdaExecutionPolicy-${AWS::StackName}'
+    

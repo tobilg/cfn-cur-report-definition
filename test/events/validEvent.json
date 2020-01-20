@@ -1,0 +1,29 @@
+{
+    "RequestType": "Create",
+    "ServiceToken": "arn:aws:lambda:us-east-1:562552715877:function:test-custom-cost-report-d-CustomCostUsageReportDef-1G27UYKGP8I7W",
+    "ResponseURL": "http://localhost:3000",
+    "StackId": "arn:aws:cloudformation:us-east-1:562552715877:stack/test-custom-cost-report-definition-dev/0be4ea80-3ad8-11ea-adb5-0ad9172a6ca8",
+    "RequestId": "5773eb93-8346-4138-b3f3-19cd0a6048a2",
+    "LogicalResourceId": "CostUsageReportDefinition",
+    "ResourceType": "Custom::CostUsageReportDefinition",
+    "ResourceProperties": {
+        "ServiceToken": "arn:aws:lambda:us-east-1:562552715877:function:test-custom-cost-report-d-CustomCostUsageReportDef-1G27UYKGP8I7W",
+        "AdditionalArtifacts": [
+            "REDSHIFT",
+            "QUICKSIGHT",
+            "ATHENA"
+        ],
+        "Compression": "Parquet",
+        "ReportName": "test-report",
+        "RefreshClosedReports": "true",
+        "Format": "Parquet",
+        "S3Bucket": "test-custom-cost-usage-reportdefinition-dev",
+        "ReportVersioning": "CREATE_NEW_REPORT",
+        "S3Region": "us-east-1",
+        "TimeUnit": "DAILY",
+        "S3Prefix": "usagereports/",
+        "AdditionalSchemaElements": [
+            "RESOURCES"
+        ]
+    }
+}

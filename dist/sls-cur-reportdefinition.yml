@@ -1,0 +1,66 @@
+Resources:
+  CustomCostUsageReportDefinitionLambda:
+    Metadata:
+      Source: https://github.com/tobilg/cfn-cur-report-definition
+      Version: 0.1.0
+    Properties:
+      Code:
+        ZipFile: |
+          !function(e,t){for(var r in t)e[r]=t[r]}(exports,function(e){var t={};function r(o){if(t[o])return t[o].exports;var n=t[o]={i:o,l:!1,exports:{}};return e[o].call(n.exports,n,n.exports,r),n.l=!0,n.exports}return r.m=e,r.c=t,r.d=function(e,t,o){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:o})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var o=Object.create(null);if(r.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var n in e)r.d(o,n,function(t){return e[t]}.bind(null,n));return o},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=0)}([function(e,t,r){const o=r(1);e.exports.handler=r(2)({cur:new o.CUR({apiVersion:"2017-01-06"})})},function(e,t){e.exports=require("aws-sdk")},function(e,t,r){const o=r(3),n=r(4),i=new(r(5));function s(e,t,r,o){let n;const s=i.getConfiguration(t.ResourceProperties);n="deleteReportDefinition"===o?{ReportName:s.ReportDefinition.ReportName}:"modifyReportDefinition"===o?{ReportName:s.ReportDefinition.ReportName,...s}:s,console.log(n),s.hasOwnProperty("error")?a(t,r,"FAILED",{messsage:s.error}):e.cur[o](n).promise().then(e=>{a(t,r,"SUCCESS",{message:"OK"})}).catch(e=>{a(t,r,"FAILED",e)})}function a(e,t,r,i){const s=JSON.stringify({Status:r,Reason:i.message||i.code||"-",PhysicalResourceId:e.LogicalResourceId,StackId:e.StackId,RequestId:e.RequestId,LogicalResourceId:e.LogicalResourceId,Data:i}),a=n.parse(e.ResponseURL),u={hostname:a.hostname,port:443,path:a.path,method:"PUT",headers:{"content-type":"","content-length":s.length}},c=o.request(u,(function(e){t.done()}));c.on("error",(function(e){t.done()})),c.write(s),c.end()}e.exports=e=>(t,r,o)=>{try{!function(e,t,r){setTimeout(()=>{new Promise(()=>a(e,t,"FAILED",{message:"Timeout failure"})).then(()=>r(new Error("Function timed out")))},t.getRemainingTimeInMillis()-1e3)}(t,r,o),"Create"===t.RequestType?s(e,t,r,"putReportDefinition"):"Update"===t.RequestType?s(e,t,r,"modifyReportDefinition"):"Delete"===t.RequestType&&s(e,t,r,"deleteReportDefinition")}catch(e){console.log(e),a(t,r,"FAILED",e)}}},function(e,t){e.exports=require("https")},function(e,t){e.exports=require("url")},function(e,t){e.exports=class{constructor(){this.ap={AdditionalArtifacts:{r:!1,vv:["REDSHIFT","QUICKSIGHT","ATHENA"]},AdditionalSchemaElements:{r:!0,vv:["RESOURCES"]},Compression:{r:!0,vv:["ZIP","GZIP","Parquet"]},Format:{r:!0,vv:["textORcsv","Parquet"]},RefreshClosedReports:{r:!1},ReportName:{r:!0},ReportVersioning:{r:!1,vv:["CREATE_NEW_REPORT","OVERWRITE_REPORT"]},S3Bucket:{r:!0},S3Prefix:{r:!0},S3Region:{r:!0},TimeUnit:{r:!0,vv:["HOURLY","DAILY"]}}}getRequiredProps(){return Object.getOwnPropertyNames(this.ap).filter(e=>this.ap[e].r)}arrayContainsArray(e,t){return 0!==t.length&&t.every((function(t){return e.indexOf(t)>=0}))}getConfiguration(e){const t=this.getRequiredProps(),r=Object.assign({},e);delete r.ServiceToken;const o={ReportDefinition:{}};return this.arrayContainsArray(Object.getOwnPropertyNames(r),t)?(Object.getOwnPropertyNames(r).forEach(e=>{if(this.ap[e].hasOwnProperty("vv")&&!Array.isArray(this.ap[e].vv)&&!this.ap[e].vv.includes(r[e]))return{error:"Invalid configuration specified for '"+e+"' ('"+r[e]+"' instead of one of '"+this.ap[e].vv.join(", ")+"')"};this.ap[e].hasOwnProperty("vv")&&Array.isArray(this.ap[e].vv)&&Array.isArray(r[e])?(r[e].forEach(t=>{if(!this.ap[e].vv.includes(t))return{error:"Invalid configuration specified for '"+e+"' ('"+t+"' instead of one of '"+this.ap[e].vv.join(", ")+"')"}}),o.ReportDefinition[e]=r[e]):o.ReportDefinition[e]="RefreshClosedReports"===e?Boolean(r[e]):r[e]}),o):{error:"Not all required properties specified ("+t.join(", ")+")"}}}}]));
+      Description: Cloudformation custom resource for Cost Usage ReportDefinition
+      Handler: index.handler
+      Role: 
+        Fn::GetAtt: 
+          - CustomCostUsageReportDefinitionLambdaExecutionRole
+          - Arn
+      Runtime: nodejs10.x
+      Timeout: 30
+    Type: AWS::Lambda::Function
+  CustomCostUsageReportDefinitionLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaRole
+      Policies:
+        - PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cur:PutReportDefinition
+                  - cur:DeleteReportDefinition
+                  - cur:ModifyReportDefinition
+                Resource:
+                  - 'Fn::Join':
+                    - ':'
+                    - - 'arn:aws:cur'
+                      - Ref: 'AWS::Region'
+                      - Ref: 'AWS::AccountId'
+                      - 'definition/*'
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  - 'Fn::Join':
+                    - ':'
+                    - - 'arn:aws:logs'
+                      - Ref: 'AWS::Region'
+                      - Ref: 'AWS::AccountId'
+                      - 'log-group:/aws/lambda/*:*:*'
+          PolicyName:
+            'Fn::Join':
+              - '-'
+              - - 'CustomCostUsageReportDefinitionLambdaExecutionPolicy'
+                - Ref: 'AWS::StackName'
+    

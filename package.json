@@ -1,0 +1,45 @@
+{
+  "name": "cfn-cur-report-definition",
+  "version": "0.1.0",
+  "description": "A custom CloudFormation resource for Cost Usage Reports",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "build": "NODE_ENV=production npm run package && node scripts/build.js && rm dist/main.js",
+    "package": "webpack",
+    "deploy": "npm run build && cd example && sls deploy",
+    "remove": "cd example && sls remove"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tobilg/cfn-cost-usage-report.git"
+  },
+  "keywords": [
+    "cloudformation",
+    "cognito",
+    "resource",
+    "cost",
+    "custom",
+    "usage",
+    "report",
+    "aws"
+  ],
+  "author": "TobiLG <tobilg@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tobilg/cfn-cost-usage-report/issues"
+  },
+  "homepage": "https://github.com/tobilg/cfn-cost-usage-report#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "aws-sdk": "^2.601.0",
+    "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
+    "mocha": "^7.0.0",
+    "sinon": "^8.1.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
