@@ -33,6 +33,7 @@
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.7.7",
+    "@babel/helper-compilation-targets": "^7.10.4",
     "@babel/preset-env": "^7.7.7",
     "aws-sdk": "^2.601.0",
     "babel-loader": "^8.0.6",
