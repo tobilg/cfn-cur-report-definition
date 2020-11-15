@@ -13,7 +13,7 @@ Resources:
         Fn::GetAtt: 
           - CustomCostUsageReportDefinitionLambdaExecutionRole
           - Arn
-      Runtime: nodejs10.x
+      Runtime: nodejs12.x
       Timeout: 30
     Type: AWS::Lambda::Function
   CustomCostUsageReportDefinitionLambdaExecutionRole:

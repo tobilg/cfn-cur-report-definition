@@ -14,8 +14,7 @@
             "ATHENA"
         ],
         "Compression": "bla",
-        "ReportName": "test-report",
-        "RefreshClosedReports": "true",
+        "RefreshClosedReports": true,
         "Format": "Parquet",
         "S3Bucket": "test-custom-cost-usage-reportdefinition-dev",
         "ReportVersioning": "CREATE_NEW_REPORT",
